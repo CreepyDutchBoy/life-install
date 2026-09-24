@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life · install</title>
+<meta name="description" content="Life — Conway's Game of Life bench with LAN multiplayer and LuaJIT mods. One-line Linux install.">
+<link rel="icon" type="image/png" href="liferust.png">
+<style>
+  :root{
+    --backdrop:#0d0b08; --chrome:#2a241b; --chrome-hi:#3b3326; --edge:#54482f; --line:#574b35;
+    --panel:#211c14; --inset:#18140e;
+    --amber:#ffba52; --amber-bright:#ffd591; --cyan:#5fd4c0; --green:#a7d36f; --red:#e0664a;
+    --ink:#f8eedb; --ink-dim:#c4b597; --ink-faint:#978a70;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--backdrop);color:var(--ink);min-height:100vh;
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.6;
+    display:flex;justify-content:center;padding:48px 16px}
+  .console{width:100%;max-width:760px;background:linear-gradient(180deg,var(--chrome-hi),var(--chrome));
+    border:1px solid var(--edge);border-radius:14px;padding:28px;box-shadow:0 30px 80px -20px #000}
+  header{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+  header img{width:56px;height:56px}
+  h1{font-size:18px;letter-spacing:.32em;color:var(--amber);font-weight:700}
+  .sub{font-size:11px;letter-spacing:.14em;color:var(--ink-faint);text-transform:uppercase}
+  h2{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);font-weight:500;
+    display:flex;align-items:center;gap:10px;margin:26px 0 10px}
+  h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  p{color:var(--ink-dim)}
+  .cmd{display:flex;align-items:stretch;background:var(--inset);border:1px solid var(--edge);border-radius:8px;
+    margin:8px 0;overflow:hidden}
+  .cmd code{flex:1;padding:12px 14px;color:var(--amber-bright);font-family:inherit;font-size:13px;
+    overflow-x:auto;white-space:pre}
+  .cmd .tag{padding:12px 10px;color:var(--ink-faint);font-size:11px;border-right:1px solid var(--edge);
+    display:flex;align-items:center;min-width:52px;justify-content:center}
+  .cmd button{font-family:inherit;font-size:11px;border:none;border-left:1px solid var(--edge);cursor:pointer;
+    background:linear-gradient(180deg,var(--chrome-hi),#262017);color:var(--ink);padding:0 14px}
+  .cmd button:hover{color:var(--amber-bright)}
+  ul{list-style:none;color:var(--ink-dim)}
+  li{padding:3px 0 3px 18px;position:relative}
+  li::before{content:"·";position:absolute;left:4px;color:var(--amber)}
+  b{color:var(--ink);font-weight:600}
+  .k{color:var(--cyan)}
+  a{color:var(--amber)}
+  footer{margin-top:28px;font-size:11px;color:var(--ink-faint)}
+  @media (max-width:520px){ .console{padding:18px} .cmd .tag{display:none} }
+</style>
+</head>
+<body>
+<main class="console">
+  <header>
+    <img src="liferust.png" alt="">
+    <div>
+      <h1>LIFE</h1>
+      <div class="sub">cellular automaton bench · rust + slint + luajit</div>
+    </div>
+  </header>
+
+  <p>Conway's Game of Life with a timeline, statistics, LuaJIT rule mods and LAN multiplayer:
+    teams, territory claimed by still lifes, combat, and a cell budget.</p>
+
+  <h2>Install (Linux x86_64)</h2>
+  <div class="cmd"><span class="tag">curl</span><code id="c1">curl -fsSL https://creepydutchboy.github.io/life-install/install.sh | sh</code><button data-copy="c1">copy</button></div>
+  <div class="cmd"><span class="tag">wget</span><code id="c2">wget -qO- https://creepydutchboy.github.io/life-install/install.sh | sh</code><button data-copy="c2">copy</button></div>
+  <ul>
+    <li>installs into <b>~/liferust</b> (settings in <b>~/liferust/cfg</b>)</li>
+    <li>adds the <span class="k">liferust</span> command (<b>~/.local/bin</b>) and an app-menu entry with icon</li>
+    <li>the download is SHA-256 verified; no root / sudo, no system packages touched</li>
+    <li>needs glibc 2.30+ (Ubuntu 20.04, Debian 11, Fedora 32 or newer)</li>
+  </ul>
+
+  <h2>Uninstall</h2>
+  <div class="cmd"><span class="tag">local</span><code id="c3">~/liferust/uninstall.sh</code><button data-copy="c3">copy</button></div>
+  <div class="cmd"><span class="tag">purge</span><code id="c4">~/liferust/uninstall.sh --purge</code><button data-copy="c4">copy</button></div>
+  <ul>
+    <li>removes only what the installer created; keeps your settings unless <b>--purge</b></li>
+    <li>also available remotely: <code class="k">curl -fsSL https://creepydutchboy.github.io/life-install/uninstall.sh | sh</code></li>
+  </ul>
+
+  <h2>Portable</h2>
+  <p>Prefer a single file? Download <a href="Life-x86_64.AppImage">Life-x86_64.AppImage</a>
+    (<a href="Life-x86_64.AppImage.sha256">sha256</a>), <code class="k">chmod +x</code> it and run.</p>
+
+  <footer>Life · liferust</footer>
+</main>
+<script>
+  document.querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", async () => {
+    const t = document.getElementById(b.dataset.copy).textContent;
+    try { await navigator.clipboard.writeText(t); b.textContent = "copied"; }
+    catch (_) { b.textContent = "select + copy"; }
+    setTimeout(() => b.textContent = "copy", 1400);
+  }));
+</script>
+</body>
+</html>

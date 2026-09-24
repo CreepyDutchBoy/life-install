@@ -48,6 +48,7 @@ fetch "$BASE_URL/Life-x86_64.AppImage" "$TMP/Life.AppImage"
 fetch "$BASE_URL/Life-x86_64.AppImage.sha256" "$TMP/sum"
 fetch "$BASE_URL/liferust.png" "$TMP/liferust.png"
 fetch "$BASE_URL/uninstall.sh" "$TMP/uninstall.sh"
+VERSION=$(fetch "$BASE_URL/version.txt" "$TMP/version" 2>/dev/null && cat "$TMP/version" || echo unknown)
 
 say "verifying checksum"
 want=$(cut -d' ' -f1 "$TMP/sum")
@@ -59,7 +60,7 @@ chmod 755 "$TMP/Life.AppImage"
 install -m 755 "$TMP/Life.AppImage" "$DEST/Life.AppImage"
 install -m 644 "$TMP/liferust.png" "$DEST/liferust.png"
 install -m 755 "$TMP/uninstall.sh" "$DEST/uninstall.sh"
-printf 'installed %s from %s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$BASE_URL" > "$DEST/.liferust-install"
+printf 'version %s\ninstalled %s from %s\n' "$VERSION" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$BASE_URL" > "$DEST/.liferust-install"
 
 # unpack once so launching needs no FUSE and starts fast (the .AppImage stays as the
 # portable single-file copy)
@@ -102,7 +103,7 @@ ln -sfn "$DEST/liferust.png" "$ICONS/liferust.png"
 command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database -q "$APPS" 2>/dev/null || true
 command -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -q -t "$DATA/icons/hicolor" 2>/dev/null || true
 
-say "installed Life into $DEST"
+say "installed Life $VERSION into $DEST"
 case ":$PATH:" in
     *":$BIN_DIR:"*) say "run it with: liferust  (or from your app menu)" ;;
     *) say "run it with: $BIN_DIR/liferust  — add ~/.local/bin to your PATH for plain 'liferust'" ;;

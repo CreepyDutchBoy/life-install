@@ -43,6 +43,8 @@
   .k{color:var(--cyan)}
   a{color:var(--amber)}
   footer{margin-top:28px;font-size:11px;color:var(--ink-faint)}
+  .note{margin-top:22px;padding:10px 14px;border:1px dashed var(--edge);border-radius:8px;font-size:12px;color:var(--ink-dim)}
+  .note b{color:var(--amber)}
   @media (max-width:520px){ .console{padding:18px} .cmd .tag{display:none} }
 </style>
 </head>
@@ -52,7 +54,7 @@
     <img src="liferust.png" alt="">
     <div>
       <h1>LIFE</h1>
-      <div class="sub">cellular automaton bench · rust + slint + luajit</div>
+      <div class="sub">v0.1 beta · cellular automaton bench · rust + slint + luajit</div>
     </div>
   </header>
 
@@ -79,9 +81,13 @@
 
   <h2>Portable</h2>
   <p>Prefer a single file? Download <a href="Life-x86_64.AppImage">Life-x86_64.AppImage</a>
-    (<a href="Life-x86_64.AppImage.sha256">sha256</a>), <code class="k">chmod +x</code> it and run.</p>
+    (<a href="Life-x86_64.AppImage.sha256">sha256</a>), <code class="k">chmod +x</code> it and run.
+    Every version is also on the <a href="https://github.com/CreepyDutchBoy/life-install/releases">releases page</a>.</p>
 
-  <footer>Life · liferust</footer>
+  <div class="note"><b>Disclaimer:</b> this project is fully vibecoded, written entirely by an AI coding
+    assistant under human direction. Expect rough edges; use at your own risk.</div>
+
+  <footer>Life v0.1 beta · liferust</footer>
 </main>
 <script>
   document.querySelectorAll("button[data-copy]").forEach(b => b.addEventListener("click", async () => {
